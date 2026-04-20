@@ -1,5 +1,6 @@
 import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react'
+import NewsLetters from '../components/NewsLetters';
 
 const Home = () => {
 
@@ -16,6 +17,7 @@ const Home = () => {
   }
 
   return (
+    <>
       <section className="flex flex-col items-center text-white text-sm pb-20 px-4 font-poppins">
         <a href="#" className="flex items-center gap-2 border border-slate-700 rounded-full p-1 pr-3 text-sm mt-20">
           <span className="bg-indigo-600 text-xs px-3 py-1 rounded-full">NEW</span>
@@ -39,15 +41,9 @@ const Home = () => {
             {!loading ? "Create with AI" : (<> Creating <Loader2Icon className="animate-spin size-4 text-white" /> </>)}
           </button>
         </form>
-
-        <div className="flex flex-wrap items-center justify-center gap-16 md:gap-20 mx-auto mt-16">
-          <img className="max-w-28 md:max-w-32" src="https://saasly.prebuiltui.com/assets/companies-logo/framer.svg" alt="" />
-          <img className="max-w-28 md:max-w-32" src="https://saasly.prebuiltui.com/assets/companies-logo/huawei.svg" alt="" />
-          <img className="max-w-28 md:max-w-32" src="https://saasly.prebuiltui.com/assets/companies-logo/instagram.svg" alt="" />
-          <img className="max-w-28 md:max-w-32" src="https://saasly.prebuiltui.com/assets/companies-logo/microsoft.svg" alt="" />
-          <img className="max-w-28 md:max-w-32" src="https://saasly.prebuiltui.com/assets/companies-logo/walmart.svg" alt="" />
-        </div>
       </section>
+      <NewsLetters />
+    </>
   )
 }
 
