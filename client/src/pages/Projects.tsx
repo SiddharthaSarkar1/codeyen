@@ -23,15 +23,40 @@ const Projects = () => {
     const [isSaving, setIsSaving] = useState(false);
     const previewRef = useRef<ProjectPreviewRef>(null);
 
-    const fetchProject = async () => { 
-        const project = dummyProjects.find(project =>  project.id === projectId);
+    const fetchProject = async () => {
+        const project = dummyProjects.find(project => project.id === projectId);
         setTimeout(() => {
-            if(project){
-                setProject({...project, conversation: dummyConversations});
+            if (project) {
+                setProject({ ...project, conversation: dummyConversations });
                 setLoading(false);
                 setIsGenerating(project.current_code ? false : true);
             }
         }, 2000);
+    }
+
+    const saveProject = async () => {
+
+    }
+
+    const downloadCode = () => {
+        const code = previewRef.current?.getCode() || project?.current_code;
+        if (!code) {
+            if (isGenerating) {
+                return
+            }
+            return
+        }
+
+        const element = document.createElement("a");
+        const file = new Blob([code], { type: "text/html" });
+        element.href = URL.createObjectURL(file);
+        element.download = `index.html`;
+        document.body.appendChild(element);
+        element.click();
+    }
+
+    const togglePublish = async () => {
+        
     }
 
     useEffect(() => {
@@ -105,7 +130,7 @@ const Projects = () => {
                 {/* RIGHT */}
                 <div className="flex items-center justify-end flex-1 gap-3 text-xs sm:text-sm">
                     <button
-                        onClick={() => {}}
+                        onClick={() => { }}
                         disabled={isSaving}
                         className="max-sm:hidden bg-gray-800 hover:bg-gray-700 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors border border-gray-700"
                     >
@@ -124,13 +149,13 @@ const Projects = () => {
                         <FullscreenIcon size={16} /> Preview
                     </Link>
                     <button
-                        onClick={() => {}}
+                        onClick={downloadCode}
                         className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
                     >
                         <ArrowBigDownDashIcon size={16} /> Download
                     </button>
                     <button
-                        onClick={() => {}}
+                        onClick={() => { }}
                         className="bg-linear-to-br from-indigo-700 to-indigo-600 hover:from-indigo-600 hover:to-indigo-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
                     >
                         {project.isPublished ? (
