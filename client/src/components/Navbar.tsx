@@ -12,7 +12,7 @@ const Navbar = () => {
         <>
             <nav className="z-50 flex items-center justify-between w-full py-4 px-4 md:px-16 lg:px-24 xl:px-32 backdrop-blur border-b text-white border-slate-800">
                 <Link to="/" className='flex flex-row justify-between items-center gap-2'>
-                    <img src={assets.logo} alt="logo" className="h-5 sm:h-7 rounded-full object-cover" />
+                    <img src={assets.logo} alt="logo" className="h-5 sm:h-7 rounded-full object-cover ring ring-indigo shadow-lg ring-indigo-500" />
                     <span className='text-xl font-bold'>Codeyen</span>
                 </Link>
 
