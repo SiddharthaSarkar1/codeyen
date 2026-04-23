@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets';
 import { Link, useNavigate } from 'react-router-dom';
+import { authClient } from '@/lib/auth-client';
+import { UserButton } from '@daveyplate/better-auth-ui';
 
 const Navbar = () => {
 
     const [menuOpen, setMenuOpen] = useState(false);
-
     const navigate = useNavigate();
+
+    const { data: session } = authClient.useSession();
 
     return (
         <>
@@ -24,9 +27,24 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <button className="px-6 py-2 max-sm:text-sm bg-indigo-600 active:scale-95 hover:bg-indigo-700 transition rounded" onClick={() => navigate('/auth/signin')}>
-                        Get started
-                    </button>
+                {!session?.user ? (
+                        <button
+                            onClick={() => navigate("/auth/sign-in")}
+                            className="px-6 py-1.5 max-sm:text-sm bg-indigo-600 active:scale-95 hover:bg-indigo-700 transition rounded-md"
+                        >
+                            Get started
+                        </button>
+                    ) : (
+                        <>
+                            <button className="bg-white/10 px-5 py-1.5 text-xs sm:text-sm border text-gray-200 rounded-full">
+                                Credits :{" "}
+                                <span className="text-indigo-300">
+                                    {/* {credits} */}
+                                </span>
+                            </button>
+                            <UserButton size={"icon"} />
+                        </>
+                    )}
                     <button id="open-menu" className="md:hidden active:scale-90 transition" onClick={() => setMenuOpen(true)} >
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5h16" /><path d="M4 12h16" /><path d="M4 19h16" /></svg>
                     </button>

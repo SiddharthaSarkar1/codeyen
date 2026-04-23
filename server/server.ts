@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import cors from "cors";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./lib/auth.js";
 
 dotenv.config();
 
@@ -17,6 +19,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+app.all('/api/auth/{*any}', toNodeHandler(auth));
 
 app.get("/", (req: Request, res: Response) => {
     res.json({ status: "OK", message: "Server is live now." });
