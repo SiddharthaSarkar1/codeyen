@@ -7,11 +7,16 @@ import { dummyConversations, dummyProjects } from "../assets/assets";
 import ProjectPreview, {
     type ProjectPreviewRef,
 } from "../components/ProjectPreview";
+import api from "@/configs/axios";
+import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 const Projects = () => {
 
     const { projectId } = useParams();
     const navigate = useNavigate();
+
+    const { data: session, isPending } = authClient.useSession();
 
     const [project, setProject] = useState<Project | null>(null);
     const [loading, setLoading] = useState(true);
@@ -24,19 +29,45 @@ const Projects = () => {
     const previewRef = useRef<ProjectPreviewRef>(null);
 
     const fetchProject = async () => {
-        const project = dummyProjects.find(project => project.id === projectId);
-        setTimeout(() => {
-            if (project) {
-                setProject({ ...project, conversation: dummyConversations });
-                setLoading(false);
-                setIsGenerating(project.current_code ? false : true);
-            }
-        }, 2000);
+        try {
+            const { data } = await api.get(`/api/user/project/${projectId}`);
+            setProject(data.project);
+            setIsGenerating(data.project.current_code ? false : true);
+            setLoading(false);
+        } catch (error: any) {
+            toast.error(
+                error?.response?.data?.message ||
+                error.message ||
+                "Something went wrong"
+            );
+            console.error(error);
+        }
     }
 
     const saveProject = async () => {
+        if (!previewRef.current) return;
 
-    }
+        const code = previewRef.current.getCode();
+        if (!code) return;
+
+        setIsSaving(true);
+        try {
+            const { data } = await api.put(`/api/project/save/${projectId}`, {
+                code,
+            });
+            toast.success(data.message);
+        } catch (error: any) {
+            toast.error(
+                error?.response?.data?.message ||
+                error.message ||
+                "Something went wrong"
+            );
+            console.error(error);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
 
     const downloadCode = () => {
         const code = previewRef.current?.getCode() || project?.current_code;
@@ -56,12 +87,39 @@ const Projects = () => {
     }
 
     const togglePublish = async () => {
-        
-    }
+        try {
+            const { data } = await api.get(
+                `/api/user/publish-toggle/${projectId}`
+            );
+            toast.success(data.message);
+            setProject((prev) =>
+                prev ? { ...prev, isPublished: !prev.isPublished } : null
+            );
+        } catch (error: any) {
+            toast.error(
+                error?.response?.data?.message ||
+                error.message ||
+                "Something went wrong"
+            );
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
-        fetchProject()
-    }, [])
+        if (session?.user) {
+            fetchProject();
+        } else if (!isPending && !session?.user) {
+            navigate("/");
+            toast.error("Please login to view your project.");
+        }
+    }, [session?.user]);
+
+    useEffect(() => {
+        if (project && !project.current_code) {
+            const intervalId = setInterval(fetchProject, 10000);
+            return () => clearInterval(intervalId);
+        }
+    }, [project]);
 
     if (loading) {
         return (
@@ -130,7 +188,7 @@ const Projects = () => {
                 {/* RIGHT */}
                 <div className="flex items-center justify-end flex-1 gap-3 text-xs sm:text-sm">
                     <button
-                        onClick={() => { }}
+                        onClick={saveProject}
                         disabled={isSaving}
                         className="max-sm:hidden bg-gray-800 hover:bg-gray-700 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors border border-gray-700"
                     >
@@ -155,7 +213,7 @@ const Projects = () => {
                         <ArrowBigDownDashIcon size={16} /> Download
                     </button>
                     <button
-                        onClick={() => { }}
+                        onClick={togglePublish}
                         className="bg-linear-to-br from-indigo-700 to-indigo-600 hover:from-indigo-600 hover:to-indigo-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
                     >
                         {project.isPublished ? (

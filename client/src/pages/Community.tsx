@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Loader2Icon } from "lucide-react";
 import { dummyProjects } from "../assets/assets";
 import Footer from "../components/Footer";
+import api from "@/configs/axios";
+import { toast } from "sonner";
 
 const Community = () => {
 
@@ -12,16 +14,23 @@ const Community = () => {
   const navigate = useNavigate();
 
   const fetchProjects = async () => {
-    setProjects(dummyProjects)
-    //Simulate project loading
-    setTimeout(() => {
-      setLoading(false)
-    }, 3000);
+      try {
+          const { data } = await api.get(`/api/project/published`);
+          setProjects(data.projects);
+          setLoading(false);
+      } catch (error: any) {
+          toast.error(
+              error?.response?.data?.message ||
+                  error.message ||
+                  "Something went wrong"
+          );
+          console.error(error);
+          setLoading(false);
+      }
   };
 
   useEffect(() => {
-    fetchProjects();
-    // console.log(projects);
+      fetchProjects();
   }, []);
 
   return (

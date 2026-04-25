@@ -31,39 +31,42 @@ export const getUserCredits = async (req: Request, res: Response) => {
 }
 
 //Below controller function is to create new project
-
 export const createUserProject = async (req: Request, res: Response) => {
     const userId = req.userId;
     try {
         if (!userId) {
-            return res.status(401).json({ message: "Unauthorized" })
-        }
-        //Fetch user if exist
-        const user = await prisma.user.findUnique({
-            where: {
-                id: userId
-            }
-        })
-
-        if (!user) {
-            return res.status(404).json({ messahge: "User not found." })
+            return res.status(401).json({ message: "Unauthorized" });
         }
 
         const { initial_prompt } = req.body;
 
-        if (user && user.credits < 5) {
-            return res.status(403).json({ message: "Add more credits to create a new project" })
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId,
+            },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User Not Found" });
         }
 
+        if (user && user.credits < 5) {
+            return res
+                .status(403)
+                .json({ message: "Add more credits to create a project" });
+        }
+
+        // Create a new project
         const project = await prisma.websiteProject.create({
             data: {
-                name: initial_prompt.length > 50
-                    ? initial_prompt.substring(0, 47) + "..."
-                    : initial_prompt,
+                name:
+                    initial_prompt.length > 50
+                        ? initial_prompt.substring(0, 47) + "..."
+                        : initial_prompt,
                 initial_prompt,
                 userId,
-            }
-        })
+            },
+        });
 
         // Update users total creation
         await prisma.user.update({
@@ -76,7 +79,7 @@ export const createUserProject = async (req: Request, res: Response) => {
                 },
             },
         });
-        // Add conversation data to DB
+
         await prisma.conversation.create({
             data: {
                 role: "user",
@@ -84,7 +87,7 @@ export const createUserProject = async (req: Request, res: Response) => {
                 projectId: project.id,
             },
         });
-        // Update credit value for user
+
         await prisma.user.update({
             where: {
                 id: userId,
@@ -100,7 +103,7 @@ export const createUserProject = async (req: Request, res: Response) => {
 
         // Enhance user prompt
         const promptEnhanceResponse = await openai.chat.completions.create({
-            model: "kwaipilot/kat-coder-pro:free",
+            model: "baidu/qianfan-ocr-fast:free",
             messages: [
                 {
                     role: "system",
@@ -144,7 +147,7 @@ export const createUserProject = async (req: Request, res: Response) => {
 
         // Generating website code
         const codeGenerationResponse = await openai.chat.completions.create({
-            model: "kwaipilot/kat-coder-pro:free",
+            model: "baidu/qianfan-ocr-fast:free",
             messages: [
                 {
                     role: "system",
@@ -239,7 +242,6 @@ export const createUserProject = async (req: Request, res: Response) => {
                 current_version_index: version.id,
             },
         });
-
     } catch (error: any) {
         await prisma.user.update({
             where: {
@@ -259,7 +261,9 @@ export const createUserProject = async (req: Request, res: Response) => {
 
         return res.status(500).json({ message: error.message || error.code });
     }
-}
+};
+
+
 
 //controller function - Get a single user project
 
@@ -387,7 +391,7 @@ export const togglePublish = async (req: Request, res: Response) => {
 // To purchase credits
 export const purchaseCredits = async (req: Request, res: Response) => {
     try {
-        
+
     } catch (error: any) {
         console.error("Error in purchaseCredits controller", error);
         return res.status(500).json({ message: error.message || error.code });

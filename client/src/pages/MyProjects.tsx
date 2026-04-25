@@ -4,29 +4,66 @@ import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { dummyProjects } from '../assets/assets';
 import Footer from '../components/Footer';
+import api from '@/configs/axios';
+import { toast } from 'sonner';
+import { authClient } from '@/lib/auth-client';
 
 const MyProjects = () => {
 
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<Project[]>([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { data: session, isPending } = authClient.useSession();
 
   const fetchProjects = async () => {
-    setProjects(dummyProjects)
-    //Simulate project loading
-    setTimeout(() => {
-      setLoading(false)
-    }, 3000);
+    try {
+      const { data } = await api.get("/api/user/projects");
+      setProjects(data.projects);
+      setLoading(false);
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+        error.message ||
+        "Something went wrong"
+      );
+      console.error(error);
+      setLoading(false);
+    }
 
   }
 
   const deleteProject = async (projectId: string) => {
-    console.log(projectId)
-  }
+    try {
+      const confirm = window.confirm(
+        "Are you sure you want to delete this project?"
+      );
+      if (!confirm) return;
+
+      const { data } = await api.delete(
+        `/api/project/delete/${projectId}`
+      );
+
+      toast.success(data.message);
+
+      fetchProjects();
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ||
+        error.message ||
+        "Something went wrong"
+      );
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    fetchProjects()
-  }, [])
+    if (session?.user && !isPending) {
+      fetchProjects();
+    } else if (!isPending && !session?.user) {
+      navigate("/");
+      toast.info("Please login to view your project");
+    }
+  }, [session?.user]);
 
   return (
     <>

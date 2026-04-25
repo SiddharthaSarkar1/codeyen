@@ -5,6 +5,8 @@ import { dummyProjects } from "../assets/assets";
 import { Loader2Icon } from "lucide-react";
 import ProjectPreview from "../components/ProjectPreview";
 import type { Project } from "../types";
+import api from "@/configs/axios";
+import { toast } from "sonner";
 
 const View = () => {
     const { projectId } = useParams();
@@ -12,11 +14,21 @@ const View = () => {
     const [loading, setLoading] = useState(true);
 
     const fetchCode = async () => {
-        const project = dummyProjects.find(
-            (project) => project.id === projectId
-        );
-        setCode(project.current_code);
-        setLoading(false);
+        try {
+            const { data } = await api.get(
+                `/api/project/published/${projectId}`
+            );
+            setCode(data.code);
+            setLoading(false);
+        } catch (error: any) {
+            toast.error(
+                error?.response?.data?.message ||
+                    error.message ||
+                    "Something went wrong"
+            );
+            console.error(error);
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
