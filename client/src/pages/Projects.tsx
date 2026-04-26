@@ -214,7 +214,7 @@ const Projects = () => {
                     </button>
                     <button
                         onClick={togglePublish}
-                        className="bg-linear-to-br from-indigo-700 to-indigo-600 hover:from-indigo-600 hover:to-indigo-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
+                        className="bg-linear-to-br from-green-700 to-green-600 hover:from-green-600 hover:to-green-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
                     >
                         {project.isPublished ? (
                             <EyeOffIcon size={16} />

@@ -34,7 +34,7 @@ const Navbar = () => {
         <>
             <nav className="z-50 flex items-center justify-between w-full py-4 px-4 md:px-16 lg:px-24 xl:px-32 backdrop-blur border-b text-white border-slate-800">
                 <Link to="/" className='flex flex-row justify-between items-center gap-2'>
-                    <img src={assets.logo} alt="logo" className="h-5 sm:h-7 rounded-full object-cover ring ring-indigo shadow-lg ring-indigo-500" />
+                    <img src={assets.logo} alt="logo" className="h-5 sm:h-7 rounded-full object-cover ring ring-indigo shadow-lg ring-green-500" />
                     <span className='text-xl font-bold'>Codeyen</span>
                 </Link>
 
@@ -49,7 +49,7 @@ const Navbar = () => {
                 {!session?.user ? (
                         <button
                             onClick={() => navigate("/auth/sign-in")}
-                            className="px-6 py-1.5 max-sm:text-sm bg-indigo-600 active:scale-95 hover:bg-indigo-700 transition rounded-md"
+                            className="px-6 py-1.5 max-sm:text-sm bg-green-600 active:scale-95 hover:bg-green-700 transition rounded-md"
                         >
                             Get started
                         </button>
@@ -57,7 +57,7 @@ const Navbar = () => {
                         <>
                             <button className="bg-white/10 px-5 py-1.5 text-xs sm:text-sm border text-gray-200 rounded-full">
                                 Credits :{" "}
-                                <span className="text-indigo-300">
+                                <span className="text-green-300">
                                     {credits}
                                 </span>
                             </button>
@@ -82,10 +82,6 @@ const Navbar = () => {
                     </button>
                 </div>
             )}
-            {/* BACKGROUND IMAGE */}
-            <img src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/refs/heads/main/assets/hero/bg-gradient-2.png" className="absolute inset-0 -z-10 size-full opacity" alt="" />
-
-
         </>
     )
 }

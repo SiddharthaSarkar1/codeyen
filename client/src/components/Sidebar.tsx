@@ -139,14 +139,14 @@ const Sidebar = ({
                                                 }`}
                                         >
                                             {!isUser && (
-                                                <div className="w-8 h-8 rounded-full bg-linear-to-br from-indigo-600 to-indigo-700 flex items-center justify-center">
+                                                <div className="w-8 h-8 rounded-full bg-linear-to-br from-green-600 to-green-700 flex items-center justify-center">
                                                     <BotIcon className="size-5 text-white" />
                                                 </div>
                                             )}
 
                                             <div
                                                 className={`max-w-[80%] p-2 px-4 rounded-2xl shadow-sm text-sm mt-5 leading-relaxed ${isUser
-                                                    ? "bg-linear-to-r from-indigo-500 to-indigo-600 text-white rounded-tr-none"
+                                                    ? "bg-linear-to-r from-green-500 to-green-600 text-white rounded-tr-none"
                                                     : "rounded-tl-none bg-gray-800 text-gray-100"
                                                     }`}
                                             >
@@ -187,7 +187,7 @@ const Sidebar = ({
                                                         onClick={() =>
                                                             handleRollback(ver.id)
                                                         }
-                                                        className="px-3 py-1 rounded-md text-xs bg-indigo-500 hover:bg-indigo-600 text-white"
+                                                        className="px-3 py-1 rounded-md text-xs bg-green-500 hover:bg-green-600 text-white"
                                                     >
                                                         Rollback to this version
                                                     </button>
@@ -196,7 +196,7 @@ const Sidebar = ({
                                                     to={`/preview/${project.id}/${ver.id}`}
                                                     target="_blank"
                                                 >
-                                                    <EyeIcon className="size-6 p-1 bg-gray-700 hover:bg-indigo-500 transition-colors rounded" />
+                                                    <EyeIcon className="size-6 p-1 bg-gray-700 hover:bg-green-500 transition-colors rounded" />
                                                 </Link>
                                             </div>
                                         </div>
@@ -206,7 +206,7 @@ const Sidebar = ({
 
                         {isGenerating && (
                             <div className="flex items-start gap-3 justify-start">
-                                <div className="w-8 h-8 rounded-full bg-linear-to-br from-indigo-600 to-indigo-700 flex items-center justify-center">
+                                <div className="w-8 h-8 rounded-full bg-linear-to-br from-green-600 to-green-700 flex items-center justify-center">
                                     <BotIcon className="size-5 text-white" />
                                 </div>
                                 <div className="flex gap-1.5 h-full items-end">
@@ -236,12 +236,12 @@ const Sidebar = ({
                                 value={input}
                                 rows={4}
                                 placeholder="Describe your website or request changes..."
-                                className="flex-1 p-3 rounded-xl resize-none text-sm outline-none ring ring-gray-700 focus:ring-indigo-500 bg-gray-800 text-gray-100 placeholder-gray-400 transition-all"
+                                className="flex-1 p-3 rounded-xl resize-none text-sm outline-none ring ring-gray-700 focus:ring-green-500 bg-gray-800 text-gray-100 placeholder-gray-400 transition-all"
                                 disabled={isGenerating}
                             />
                             <button
                                 disabled={isGenerating || !input.trim()}
-                                className="absolute bottom-2.5 right-2.5 rounded-full p-1 bg-linear-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white transition-colors disabled:opacity-60"
+                                className="absolute bottom-2.5 right-2.5 rounded-full p-1 bg-linear-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white transition-colors disabled:opacity-60"
                             >
                                 {isGenerating ? (
                                     <Loader2Icon className="size-7 p-1.5 animate-spin text-white" />

@@ -8,7 +8,7 @@ export default function AuthPage() {
         <main className="p-6 flex flex-col justify-center items-center h-[80vh]">
             <AuthView
                 pathname={pathname}
-                classNames={{ base: "bg-black/10 ring ring-indigo-900" }}
+                classNames={{ base: "bg-black/10 ring ring-green-900" }}
             />
         </main>
     );

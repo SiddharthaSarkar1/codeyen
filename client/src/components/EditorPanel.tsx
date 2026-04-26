@@ -67,7 +67,7 @@ const EditorPanel = ({
                     <textarea
                         value={values.text}
                         onChange={(e) => handleChange("text", e.target.value)}
-                        className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none min-h-20 transition-colors"
+                        className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-green-500 outline-none min-h-20 transition-colors"
                     />
                 </div>
 
@@ -81,7 +81,7 @@ const EditorPanel = ({
                         onChange={(e) =>
                             handleChange("className", e.target.value)
                         }
-                        className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none transition-colors"
+                        className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition-colors"
                     />
                 </div>
 
@@ -96,7 +96,7 @@ const EditorPanel = ({
                             onChange={(e) =>
                                 handleStyleChange("padding", e.target.value)
                             }
-                            className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none transition-colors"
+                            className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition-colors"
                         />
                     </div>
 
@@ -110,7 +110,7 @@ const EditorPanel = ({
                             onChange={(e) =>
                                 handleStyleChange("margin", e.target.value)
                             }
-                            className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none transition-colors"
+                            className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition-colors"
                         />
                     </div>
                 </div>
@@ -126,7 +126,7 @@ const EditorPanel = ({
                             onChange={(e) =>
                                 handleStyleChange("fontSize", e.target.value)
                             }
-                            className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none transition-colors"
+                            className="w-full text-sm p-2 border border-gray-400 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition-colors"
                         />
                     </div>
                 </div>

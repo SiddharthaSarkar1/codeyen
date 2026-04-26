@@ -5,6 +5,7 @@ import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth.js";
 import userRouter from "./routes/userRoutes.js";
 import projectRouter from "./routes/projectRoutes.js";
+import { stripeWebhook } from "./controllers/stripeWebhook.js";
 
 dotenv.config();
 
@@ -30,6 +31,12 @@ app.get("/healthz", (req: Request, res: Response) => {
 app.get("/", (req: Request, res: Response) => {
     res.json({ status: "OK", message: "Server is live now." });
 });
+
+app.post(
+    "/api/stripe",
+    express.raw({ type: "application/json" }),
+    stripeWebhook
+);
 
 app.use("/api/user", userRouter);
 app.use("/api/project", projectRouter);
