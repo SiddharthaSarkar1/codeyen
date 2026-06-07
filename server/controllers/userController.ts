@@ -104,7 +104,7 @@ export const createUserProject = async (req: Request, res: Response) => {
 
         // Enhance user prompt
         const promptEnhanceResponse = await openai.chat.completions.create({
-            model: "baidu/qianfan-ocr-fast:free",
+            model: "openai/gpt-oss-120b:free",
             messages: [
                 {
                     role: "system",
@@ -148,7 +148,7 @@ export const createUserProject = async (req: Request, res: Response) => {
 
         // Generating website code
         const codeGenerationResponse = await openai.chat.completions.create({
-            model: "baidu/qianfan-ocr-fast:free",
+            model: "openai/gpt-oss-120b:free",
             messages: [
                 {
                     role: "system",

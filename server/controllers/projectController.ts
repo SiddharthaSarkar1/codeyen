@@ -77,7 +77,7 @@ export const makeRevision = async (req: Request, res: Response) => {
 
         // Enhance user prompt
         const promptEnhanceResponse = await openai.chat.completions.create({
-            model: "baidu/qianfan-ocr-fast:free",
+            model: "openai/gpt-oss-120b:free",
             messages: [
                 {
                     role: "system",
@@ -120,7 +120,7 @@ export const makeRevision = async (req: Request, res: Response) => {
 
         // Generate website code
         const codeGenerationResponse = await openai.chat.completions.create({
-            model: "baidu/qianfan-ocr-fast:free",
+            model: "openai/gpt-oss-120b:free",
             messages: [
                 {
                     role: "system",
